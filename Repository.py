@@ -1,5 +1,7 @@
 import pymysql
-
+'''
+Repository of Parallel Genetic Algorithms
+'''
 class Repository:
 
 	def __init__(self, host, user, password, dbname):
