@@ -1,4 +1,4 @@
-import MySQL
+import pymysql
 
 class Repository:
 
