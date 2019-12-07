@@ -131,7 +131,7 @@ class GACommon:
 		
 	def set_population_size(self, population_size, adapter=None):
 		self.population = []
-		if adapter == None:
+		if adapter != None:
 			adapter(self.chromosome_size, population_size, self.population)
 		else:
 			for index in range(population_size):
