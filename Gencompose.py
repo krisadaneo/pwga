@@ -26,9 +26,12 @@ class WsEntry(object):
     
     def __str__(self):
         str = "id:{}, url:{}\n".format(self.id, self.url)
-        str += "\tparams:"
+        str += "\tparams:\n"
         for prs in self.params:
-            str += "{id:{}, name:{}, type:{}}".format(prs.id, prs.name. prs.type)
+            str += "\t\t[{}]\n".format(prs)
+        str += "\treturn:\n"
+        for rps in self.reps:
+            str += "\t\t[{}]\n".format(rps)
         return str 
 
 class Management:
@@ -54,12 +57,11 @@ class Management:
         ws_id_size = self.cf['management']['ws_id_size']
         cursor = self.db.cursor()
         for i in range(1, size+1, 1):
-            print("round:{}".format(i))
             url = self.cf['webservice']['ws_url']
             sql = "INSERT INTO T_WS_ENTRY (WS_ID, URL) VALUES('{}','{}')".format(ws_id_size.format(i),url)
             cursor.execute(sql)
         self.db.commit()
-        print('Web Service entry finish...')
+        logging.info('Web Service entry finish...')
 
     def load_mem(self):
         tws = []
@@ -82,7 +84,8 @@ class Management:
                 for _ in range(0, r, 1):
                     t = random.randrange(1, 3)
                     pms.append(Params(self.random_key(), self.random_param_name(), t))
-                r = random.randrange(1, 8)    
+                r = random.randrange(1, 8)
+                print("random 0-2:{}".format(r))    
                 for _ in range(0, r, 1):
                     t = random.randrange(1, 3)
                     rps.append(Params(self.random_key(), self.random_param_name(), t))
@@ -91,17 +94,20 @@ class Management:
                     t = random.randrange(1, 3)
                     pms.append(Params(self.random_key(), rp.name, rp.type))
                 rps = []
+                r = random.randrange(1, 8)
                 for _ in range(0, r, 1):
                     t = random.randrange(1, 3)
-                    rps.append(Params(self.random_key(), self.random_param_name(), t))        
+                    rps.append(Params(self.random_key(), self.random_param_name(), t))
+            print("p size:{}".format(len(pms)))        
             w.params = pms
             w.reps = rps
             pms = []
         for w in self.ws:
             print(w)
 
-
-
+    def gen_script(self, wb):
+        pass
+    
     def close_db(self):
         self.db.close()
     
